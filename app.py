@@ -4,10 +4,12 @@ import nltk
 
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
+nltk.download('punkt')
+nltk.download('stopwords')
 
-# ==========================================
+
 # PAGE CONFIGURATION
-# ==========================================
+
 
 st.set_page_config(
     page_title="Email Spam Classifier",
@@ -15,16 +17,16 @@ st.set_page_config(
     layout="wide"
 )
 
-# ==========================================
+
 # LOAD MODEL & VECTORIZER
-# ==========================================
+
 
 model = pickle.load(open("model.pkl", "rb"))
 vectorizer = pickle.load(open("vectorizer.pkl", "rb"))
 
-# ==========================================
+
 # NLP PREPROCESSING
-# ==========================================
+
 
 ps = PorterStemmer()
 stop_words = set(stopwords.words("english"))
@@ -43,9 +45,8 @@ def transform_text(text):
 
     return " ".join(words)
 
-# ==========================================
 # SIDEBAR
-# ==========================================
+
 
 st.sidebar.title("📊 Model Information")
 
@@ -72,9 +73,9 @@ st.sidebar.write("• Tokenization")
 st.sidebar.write("• Stopword Removal")
 st.sidebar.write("• Stemming")
 
-# ==========================================
+
 # HEADER
-# ==========================================
+
 
 st.title("📧 Email Spam Classifier")
 
@@ -97,9 +98,9 @@ to classify emails as **Spam** or **Ham (Not Spam)**.
 6. Logistic Regression Classification
 """)
 
-# ==========================================
+
 # PERFORMANCE METRICS
-# ==========================================
+
 
 st.subheader("📊 Model Performance")
 
@@ -119,9 +120,9 @@ with col4:
 
 st.markdown("---")
 
-# ==========================================
+
 # SAMPLE EMAILS
-# ==========================================
+
 
 st.subheader("📨 Sample Emails")
 
@@ -154,9 +155,9 @@ You have been selected to receive a free iPhone.
 Click the link below immediately to claim your reward.
 """
 
-# ==========================================
+
 # INPUT AREA
-# ==========================================
+
 
 st.subheader("✍️ Enter Email Content")
 
@@ -167,9 +168,9 @@ input_text = st.text_area(
     placeholder="Paste your email content here..."
 )
 
-# ==========================================
+
 # PREDICTION
-# ==========================================
+
 
 if st.button("Predict"):
 
@@ -216,9 +217,9 @@ if st.button("Predict"):
                 f"✅ Ham / Not Spam ({ham_probability:.2f}% confidence)"
             )
 
-        # ==========================================
+       
         # CONFIDENCE SCORES
-        # ==========================================
+       
 
         st.subheader("📈 Confidence Scores")
 
@@ -228,9 +229,9 @@ if st.button("Predict"):
         st.write(f"Spam Probability : {spam_probability:.2f}%")
         st.progress(int(spam_probability))
 
-        # ==========================================
+        
         # DEBUG / TECHNICAL DETAILS
-        # ==========================================
+        
 
         with st.expander("🔍 View Technical Details"):
 
@@ -243,9 +244,9 @@ if st.button("Predict"):
             st.write("Active TF-IDF Features")
             st.write(vector_input.nnz)
 
-# ==========================================
+
 # FOOTER
-# ==========================================
+
 
 st.markdown("---")
 
